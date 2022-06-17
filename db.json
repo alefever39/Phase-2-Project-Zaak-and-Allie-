@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "name": "",
+      "class": "",
+      "image": "",
+      "race": "",
+      "health": "",
+      "bio": "",
+      "stats": {
+        "strength": ""
+      },
+      "spells": "",
+      "skills": {
+        "athletics": ""
+      },
+      "saves": "",
+      "languages": "",
+      "initiative": "",
+      "ac": "",
+      "proficiencyBonus": ""
+    }
+  ],
+  "groups": [{ "groupName": "" }]
+}
