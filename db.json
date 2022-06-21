@@ -1,25 +1,67 @@
 {
   "characters": [
     {
+      "id": 1,
       "name": "",
-      "class": "",
-      "image": "",
-      "race": "",
-      "health": "",
-      "bio": "",
-      "stats": {
-        "strength": ""
-      },
-      "spells": "",
-      "skills": {
-        "athletics": ""
-      },
-      "saves": "",
-      "languages": "",
-      "initiative": "",
-      "ac": "",
-      "proficiencyBonus": ""
+      "health": 0,
+      "race": "Human",
+      "class": "Barbarian",
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0,
+      "spellList": [],
+      "languageList": [],
+      "proficiencyList": [],
+      "background": "",
+      "backstory": "",
+      "gender": "Male",
+      "hair": "",
+      "skin": "",
+      "eyes": "",
+      "height": 0,
+      "weight": 0,
+      "image": ""
+    },
+    {
+      "name": "Ms. Testingson",
+      "health": "1",
+      "race": "Halfling",
+      "class": "Barbarian",
+      "strength": "23",
+      "dexterity": "12",
+      "constitution": "21",
+      "intelligence": "1",
+      "wisdom": "12",
+      "charisma": "12",
+      "spellList": [
+        "fireball"
+      ],
+      "languageList": [
+        "common"
+      ],
+      "proficiencyList": [
+        "stealth"
+      ],
+      "background": "person",
+      "backstory": "person",
+      "gender": "Female",
+      "hair": "some",
+      "skin": "Normal Amout",
+      "eyes": "2",
+      "height": "435",
+      "weight": "12351346",
+      "image": "https://i.pinimg.com/originals/e2/9e/aa/e29eaa12d2cdc4e428cebd394fc05186.jpg",
+      "alignment": "lawful good",
+      "faith": "none",
+      "id": 2
     }
   ],
-  "groups": [{ "groupName": "" }]
+  "groups": [
+    {
+      "groupName": ""
+    }
+  ]
 }
