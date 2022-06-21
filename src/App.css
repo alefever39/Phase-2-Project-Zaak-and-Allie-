@@ -37,6 +37,49 @@
   }
 }
 
+
+.numberInput {
+  width: 5vw;
+}
+
+.statForm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.statBlock {
+  width: 30%;
+}
+
+.spell {
+  list-style: none;
+}
+
+form {
+  width: 50vw;
+}
+
+fieldset {
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+.descriptionInput {
+  width: 8vw;
+}
+
+.textInput {
+  width: 15vw;
+}
+
+.nameInput {
+  width: 25vw;
+}
+
 .header{
   color:rgb(255, 20, 20);
   font-size: 200;
