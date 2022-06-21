@@ -1,9 +1,6 @@
 
-function CharacterCard({character, origin, onDetailClick, onPartyClick, onDelete}) {
+function CharacterCard({character, origin, onDetailClick, onPartyAdd, onDelete}) {
 
-    function handleCharacterClick(){
-        onPartyClick(character)
-    }
 
     function handleDelete(){
         fetch(`http://localhost:3000/characters/${character.id}`,{
@@ -25,7 +22,7 @@ function CharacterCard({character, origin, onDetailClick, onPartyClick, onDelete
             </div>
             <hr></hr>
             <div className="btns">
-                <button className="Party" onClick={handleCharacterClick}>{origin === "party" ? "Remove From Party" : "Add To Party"}</button>
+                <button className="Party" onClick={(e) => onPartyAdd(e, character)}>{origin === "party" ? "Remove From Party" : "Add To Party"}</button>
                 <button className="delete" onClick={handleDelete}>Delete Character</button>
             </div>
         </div>

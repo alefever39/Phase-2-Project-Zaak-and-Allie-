@@ -4,7 +4,7 @@ function CharacterDetail({character, onPartyAdd, onGoBack}){
         <div className="characterDetail">
             <button onClick={(e) => onPartyAdd(e, character)}>Add To Party</button>
             <button onClick={onGoBack}>Go Back</button>
-            <p>{character.name}</p>
+            <h2>{character.name}</h2>
             <img src={character.image} alt="character" width="600"></img>
             <p>Class:{character.class} Race: {character.race}</p>
             <p>Health: {character.health}</p>

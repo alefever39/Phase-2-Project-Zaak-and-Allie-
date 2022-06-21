@@ -4,7 +4,7 @@ function Party({partyList, onMoveCharacter, onDelete}){
 
     const  myParty = partyList.map((character)=> (
         <CharacterCard
-        key={character.id}
+        key={character.name}
         character={character}
         onPartyClick={onMoveCharacter}
         onDelete={onDelete}
