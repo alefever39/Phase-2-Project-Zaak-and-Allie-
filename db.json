@@ -1,31 +1,6 @@
 {
   "characters": [
     {
-      "id": 1,
-      "name": "",
-      "health": 0,
-      "race": "Human",
-      "class": "Barbarian",
-      "strength": 0,
-      "dexterity": 0,
-      "constitution": 0,
-      "intelligence": 0,
-      "wisdom": 0,
-      "charisma": 0,
-      "spellList": [],
-      "languageList": [],
-      "proficiencyList": [],
-      "background": "",
-      "backstory": "",
-      "gender": "Male",
-      "hair": "",
-      "skin": "",
-      "eyes": "",
-      "height": 0,
-      "weight": 0,
-      "image": ""
-    },
-    {
       "name": "Ms. Testingson",
       "health": "1",
       "race": "Halfling",
