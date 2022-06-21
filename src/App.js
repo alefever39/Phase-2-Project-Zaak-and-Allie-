@@ -25,7 +25,7 @@ function App() {
   
  
   useEffect(()=>{
-    fetch("http://localhost:3000/characters")
+    fetch("http://localhost:8001/characters")
     .then((r)=> r.json())
     .then((characters) => setCharacter(characters))
 }, [])
@@ -69,7 +69,7 @@ function onGoBack() {
     }
   }
 //Remove From Party
-  function handleRemoveParty(characterToMove){
+  function handleRemoveParty(e, characterToMove){
     setParty((party)=>
     party.filter((character)=>character.id !== characterToMove.id))
   }

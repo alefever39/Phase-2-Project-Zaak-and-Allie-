@@ -7,7 +7,7 @@ function CharacterSelection({characterList, onDetailClick, onPartyAdd, onDelete,
         <CharacterCard
         key= {character.name}
         character={character}
-        onPartyAdd = {onPartyAdd}
+        onPartyClick = {onPartyAdd}
         onDelete={onDelete}
         origin="selection"
         onDetailClick={onDetailClick}
