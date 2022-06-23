@@ -7,7 +7,7 @@ function PartySelect({partyMembers, onMoveCharacter, onDelete, partyName, onDeta
     const partyCollection = partyMembers.map((character, index)=>{
         return(
         <PartyCard
-        key= {character.name}   
+        key= {partyId[index]}   
         character={character}
         onPartyClick={onMoveCharacter}
         onDelete={onDelete}
