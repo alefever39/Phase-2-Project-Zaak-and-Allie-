@@ -168,6 +168,7 @@ function CharacterCreator({ editInfo = "none" }) {
   // Checks if moreInfo is either "none" or if infoList doesn't match iconList. If both are not true, creates a card div for each of the items that
   // need to be rendered on the screen.
 
+
   function handleInfoCardClick(image, index) {
     setMoreInfoDetails({
       ...moreInfoDetails,

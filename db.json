@@ -1,31 +1,6 @@
 {
   "characters": [
     {
-      "id": 1,
-      "name": "",
-      "health": 0,
-      "race": "Human",
-      "class": "Barbarian",
-      "strength": 0,
-      "dexterity": 0,
-      "constitution": 0,
-      "intelligence": 0,
-      "wisdom": 0,
-      "charisma": 0,
-      "spellList": [],
-      "languageList": [],
-      "proficiencyList": [],
-      "background": "",
-      "backstory": "",
-      "gender": "Male",
-      "hair": "",
-      "skin": "",
-      "eyes": "",
-      "height": 0,
-      "weight": 0,
-      "image": ""
-    },
-    {
       "name": "Ms. Testingson",
       "health": "1",
       "race": "Halfling",
@@ -53,36 +28,66 @@
       "id": 2
     },
     {
-      "name": "Larry",
-      "health": "1000",
-      "race": "human",
-      "class": "fighter",
-      "strength": 10,
-      "dexterity": 10,
-      "constitution": 10,
-      "intelligence": 10,
-      "wisdom": 10,
-      "charisma": 10,
-      "spellList": [],
-      "languageList": ["Common"],
-      "proficiencyList": ["Greataxes", "Chain Mail"],
-      "background": "",
-      "backstory": "Did stuff. Some people praised him for it.",
-      "gender": "male",
-      "hair": "Black",
-      "skin": "Tan",
-      "eyes": "Blue",
+
+      "name": "optimus prime",
+      "health": "50",
+      "race": "Dragonborn",
+      "class": "Fighter",
+      "strength": "13",
+      "dexterity": "10",
+      "constitution": "3",
+      "intelligence": "19",
+      "wisdom": "3",
+      "charisma": "5",
+      "spellList": [
+        "fireball",
+        "enchant"
+      ],
+      "languageList": [
+        "common",
+        "parseltounge"
+      ],
+      "proficiencyList": [
+        "stealth",
+        "lockpicking"
+      ],
+      "background": "background",
+      "backstory": "backstory goes here",
+      "gender": "Male",
+      "hair": "bald",
+      "skin": "",
+      "eyes": "",
       "height": "6",
-      "weight": "168",
-      "image": "https://qph.cf2.quoracdn.net/main-qimg-219a6c6e4fe6707c07ec79348fb13751-lq",
-      "alignment": "lawful good",
-      "faith": "God or Gods (he's not sure how many their are)",
+      "weight": "200",
+      "image": "https://www.dungeonsolvers.com/wp-content/uploads/2018/12/barbarian_tattoo_sm_by_bryansyme-dbv4gaj.jpg",
+      "alignment": "very good",
+      "faith": "very bad",
       "id": 3
     }
   ],
-  "groups": [
+  "partys": [
     {
-      "groupName": ""
+      "partyName": "Test Party 1",
+      "partyMembers": [
+        "Ms. Testingson"
+      ],
+      "id": 2
+    },
+    {
+      "partyName": "Test Party 2",
+      "partyMembers": [
+        "Ms. Testingson",
+        "optimus prime"
+      ],
+      "id": 3
+    },
+    {
+      "partyName": "test 3",
+      "partyMembers": [
+        "optimus prime",
+        "Sir Another Test"
+      ],
+      "id": 4
     }
   ],
   "ability-scores": [

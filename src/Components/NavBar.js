@@ -9,6 +9,7 @@ function NavBar(){
             <NavLink  to="/" exact>Home</NavLink>
             <NavLink to="/create">Create</NavLink>
             <NavLink to="/select">Select</NavLink>
+            <NavLink to="/party">Party</NavLink>
         </nav>
         <hr></hr>
         </div>

@@ -103,6 +103,16 @@ textarea {
   width: 25vw;
 }
 
+
+.header{
+  color:rgb(255, 20, 20);
+  font-size: 200%;
+  text-align: center;
+  padding: 1px;
+  background-image: url("https://cdn.arstechnica.net/wp-content/uploads/2016/02/DDmonstermanual_th_0-640x215.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
 .modifier {
   margin: 0px;
 }
@@ -177,16 +187,11 @@ p {
   padding: 0px;
 }
 
-.header {
-  color: rgb(255, 20, 20);
-  font-size: 70;
-  text-align: center;
-  padding: 12px;
 }
 
 .navbar {
   display: "inline-block";
-  padding: 32px;
+  padding: 10px;
 }
 .navbar a {
   float: center;
@@ -221,16 +226,92 @@ p {
   background-color: aliceblue;
 }
 
-.party {
-  background-color: #989ca2;
+.cardImage{
+  max-width: 300px; 
+  height: 300px;
+}
+
+.party{
+  background-color: #b8bdc4;
 }
 
 .filterGrid {
   display: inline-grid;
-  width: 70%;
-  grid-template-columns: repeat(auto-fill, 350px);
+  width: 60%;
+  grid-template-columns: repeat(auto-fill, 400px);
   column-gap: 10px;
   row-gap: 10px;
   padding: 10px;
-  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.detailImage{
+  
+  float: left;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  width: 350px;
+  height: 400px;
+}
+
+.characterDeets{
+  height: 300px;
+}
+
+.statTable{
+  border: 1px solid rgb(0, 0, 0);
+  padding: 10px;
+  width: 60%;
+  align-self: right;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.statTable td, th{
+  border: 1px solid rgb(0, 0, 0);
+  padding: 8px;
+  width: 0px;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.statMarker{
+  font-weight: bold;
+}
+
+.createParty{
+  width: 50%;
+   
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.characterContainer{
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  width: 70%;
+  background-color: aliceblue;
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+}
+
+.column{
+  float: left;
+  width: 50%;
+}
+
+.characterDeetsTop{
+  font-size: 140%;
+}
+
+button{
+  padding: 5px;
 }
