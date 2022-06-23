@@ -103,15 +103,15 @@ textarea {
   width: 25vw;
 }
 
-
-.header{
-  color:rgb(255, 20, 20);
+.header {
+  color: rgb(255, 20, 20);
   font-size: 200%;
   text-align: center;
   padding: 1px;
   background-image: url("https://cdn.arstechnica.net/wp-content/uploads/2016/02/DDmonstermanual_th_0-640x215.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+}
 
 .modifier {
   margin: 0px;
@@ -187,8 +187,6 @@ p {
   padding: 0px;
 }
 
-}
-
 .navbar {
   display: "inline-block";
   padding: 10px;
@@ -226,12 +224,12 @@ p {
   background-color: aliceblue;
 }
 
-.cardImage{
-  max-width: 300px; 
+.cardImage {
+  max-width: 300px;
   height: 300px;
 }
 
-.party{
+.party {
   background-color: #b8bdc4;
 }
 
@@ -246,8 +244,7 @@ p {
   margin-right: auto;
 }
 
-.detailImage{
-  
+.detailImage {
   float: left;
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
@@ -255,11 +252,11 @@ p {
   height: 400px;
 }
 
-.characterDeets{
+.characterDeets {
   height: 300px;
 }
 
-.statTable{
+.statTable {
   border: 1px solid rgb(0, 0, 0);
   padding: 10px;
   width: 60%;
@@ -269,7 +266,8 @@ p {
   margin-right: auto;
 }
 
-.statTable td, th{
+.statTable td,
+th {
   border: 1px solid rgb(0, 0, 0);
   padding: 8px;
   width: 0px;
@@ -282,18 +280,18 @@ p {
   border-top: none;
 }
 
-.statMarker{
+.statMarker {
   font-weight: bold;
 }
 
-.createParty{
+.createParty {
   width: 50%;
-   
+
   margin-left: auto;
   margin-right: auto;
 }
 
-.characterContainer{
+.characterContainer {
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 10px;
   width: 70%;
@@ -301,17 +299,28 @@ p {
   margin-left: auto;
   margin-right: auto;
   height: 400px;
+  overflow: auto;
 }
 
-.column{
+.column {
   float: left;
   width: 50%;
 }
 
-.characterDeetsTop{
+.characterDeetsTop {
   font-size: 140%;
 }
 
-button{
+button {
   padding: 5px;
+}
+
+.skills-list-div {
+  width: fit-content;
+}
+
+.skills-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

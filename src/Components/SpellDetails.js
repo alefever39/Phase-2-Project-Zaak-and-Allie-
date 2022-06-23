@@ -45,8 +45,12 @@ function SpellDetails({ moreInfoDetails }) {
         <h2>{spellInfo.name}</h2>
         <p>Description</p>
         <p>{spellInfo.desc}</p>
-        <p>At higher levels</p>
-        <p>{spellInfo["higher_level"]}</p>
+        {spellInfo["higher_level"] ? (
+          <div>
+            <p>At higher levels</p>
+            <p>{spellInfo["higher_level"]}</p>
+          </div>
+        ) : null}
       </div>
       {spellInfo.concentration ? (
         <p className="space-above">Range: {spellInfo.range}</p>
