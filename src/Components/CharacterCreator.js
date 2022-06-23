@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import InfoCardContainer from "./InfoCardContainer";
 import DetailsContainer from "./DetailsContainer";
 
-function CharacterCreator({ editInfo = "none" }) {
+function CharacterCreator({
+  editInfo = "none",
+  onCreateCharacter,
+  onEditCharacter,
+}) {
   //////////////////////////////
   // variable declarations
   let defaultForm;
@@ -22,6 +27,7 @@ function CharacterCreator({ editInfo = "none" }) {
       spellList: [],
       languageList: [],
       proficiencyList: [],
+      proficiencyBonus: 1,
       background: "",
       backstory: "",
       gender: "male",
@@ -33,6 +39,8 @@ function CharacterCreator({ editInfo = "none" }) {
       image: "",
       alignment: "",
       faith: "",
+      ac: 10,
+      speed: 30,
     };
   } else {
     defaultForm = editInfo;
@@ -60,11 +68,16 @@ function CharacterCreator({ editInfo = "none" }) {
   });
 
   const { infoType, readyToLoad, displayDetails, spellLevel } = moreInfoDetails;
+  const history = useHistory();
 
   ///////////////////////////////////////
   // algorithims
   function calculateStatModifier(statLevel) {
     return Math.floor((statLevel - 10) / 2);
+  }
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   //////////////////////////////////////
@@ -168,7 +181,6 @@ function CharacterCreator({ editInfo = "none" }) {
   // Checks if moreInfo is either "none" or if infoList doesn't match iconList. If both are not true, creates a card div for each of the items that
   // need to be rendered on the screen.
 
-
   function handleInfoCardClick(image, index) {
     setMoreInfoDetails({
       ...moreInfoDetails,
@@ -215,9 +227,10 @@ function CharacterCreator({ editInfo = "none" }) {
         body: JSON.stringify(formData),
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => onCreateCharacter(data))
         .catch((error) => window.alert(error));
       setFormData(defaultForm);
+      history.push("/select");
     } else {
       fetch(`http://localhost:8001/characters/${formData.id}`, {
         method: "PATCH",
@@ -227,12 +240,14 @@ function CharacterCreator({ editInfo = "none" }) {
         body: JSON.stringify(formData),
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => onEditCharacter(data))
         .catch((error) => window.alert(error));
+      history.push("/select");
     }
   }
 
-  //////////////////////////////////
+  // FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM
+  ///////////////////////////////////////////////////////
   // The rendered page:
   return (
     <div id="character-creation">
@@ -265,6 +280,30 @@ function CharacterCreator({ editInfo = "none" }) {
                 placeholder="Enter Max HP"
                 onChange={handleChange}
                 value={formData.health}
+                style={{ "margin-right": "10px" }}
+              />
+
+              {/* AC */}
+              <label name="ac">Armor Class (AC): </label>
+              <input
+                className="numberInput"
+                type="number"
+                name="ac"
+                placeholder="Enter AC"
+                onChange={handleChange}
+                value={formData.ac}
+                style={{ "margin-right": "10px" }}
+              />
+
+              {/* Speed */}
+              <label name="ac">Speed: </label>
+              <input
+                className="numberInput"
+                type="number"
+                name="speed"
+                placeholder="Enter Speed"
+                onChange={handleChange}
+                value={formData.speed}
               />
             </div>
             <br />
@@ -278,8 +317,8 @@ function CharacterCreator({ editInfo = "none" }) {
                   onChange={handleChange}
                   value={formData.race}
                 >
-                  <option name="race" value="dragonbon">
-                    Dragonbon
+                  <option name="race" value="dragonborn">
+                    Dragonborn
                   </option>
                   <option name="race" value="dwarf">
                     Dwarf
@@ -516,7 +555,9 @@ function CharacterCreator({ editInfo = "none" }) {
               </button>
 
               <div>
-                <p className="space-above">class: {formData.class}</p>
+                <p className="space-above">
+                  class: {capitalizeFirstLetter(formData.class)}
+                </p>
                 <label name="level">Level: </label>
                 <select
                   name="level"
@@ -576,6 +617,16 @@ function CharacterCreator({ editInfo = "none" }) {
           {/* /////////////////////////////////////////////////////// */}
           {/* Proficiencies selection */}
           <fieldset>
+            <h4>
+              Proficiency Bonus:{" "}
+              <input
+                className="numberInput"
+                type="number"
+                name="proficiencyBonus"
+                value={formData.proficiencyBonus}
+                onChange={handleChange}
+              />
+            </h4>
             <h4>Proficiencies</h4>
             <div>
               <input
@@ -684,14 +735,14 @@ function CharacterCreator({ editInfo = "none" }) {
                   value={formData.gender}
                   onChange={handleChange}
                 >
-                  <option name="gender" value="male">
+                  <option name="gender" value="Male">
                     Male
                   </option>
-                  <option name="gender" value="female">
+                  <option name="gender" value="Female">
                     Female
                   </option>
-                  <option name="gender" value="non-binary">
-                    Non Binary
+                  <option name="gender" value="Non-Binary">
+                    Non-Binary
                   </option>
                 </select>
               </div>
@@ -800,7 +851,11 @@ function CharacterCreator({ editInfo = "none" }) {
 
           {/* submit button */}
           <fieldset>
-            <input type="submit" value="Create Character" className="submit" />
+            <input
+              type="submit"
+              value={editInfo === "none" ? "Create Character" : "Save Edits"}
+              className="submit"
+            />
           </fieldset>
         </form>
       </div>

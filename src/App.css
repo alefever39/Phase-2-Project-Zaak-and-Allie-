@@ -103,9 +103,8 @@ textarea {
   width: 25vw;
 }
 
-
-.header{
-  color:rgb(255, 20, 20);
+.header {
+  color: rgb(255, 20, 20);
   font-size: 200%;
   text-align: center;
   padding: 1px;
@@ -225,12 +224,14 @@ p {
   background-color: aliceblue;
 }
 
+
 .cardImage{
   max-width: 250px; 
   height: 250px;
+
 }
 
-.party{
+.party {
   background-color: #b8bdc4;
 }
 
@@ -243,8 +244,7 @@ p {
   
 }
 
-.detailImage{
-  
+.detailImage {
   float: left;
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
@@ -252,11 +252,11 @@ p {
   height: 400px;
 }
 
-.characterDeets{
+.characterDeets {
   height: 300px;
 }
 
-.statTable{
+.statTable {
   border: 1px solid rgb(0, 0, 0);
   padding: 10px;
   width: 60%;
@@ -266,7 +266,8 @@ p {
   margin-right: auto;
 }
 
-.statTable td, th{
+.statTable td,
+th {
   border: 1px solid rgb(0, 0, 0);
   padding: 8px;
   width: 0px;
@@ -279,18 +280,18 @@ p {
   border-top: none;
 }
 
-.statMarker{
+.statMarker {
   font-weight: bold;
 }
 
-.createParty{
+.createParty {
   width: 50%;
-   
+
   margin-left: auto;
   margin-right: auto;
 }
 
-.characterContainer{
+.characterContainer {
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 10px;
   width: 70%;
@@ -298,14 +299,15 @@ p {
   margin-left: auto;
   margin-right: auto;
   height: 400px;
+  overflow: auto;
 }
 
-.column{
+.column {
   float: left;
   width: 50%;
 }
 
-.characterDeetsTop{
+.characterDeetsTop {
   font-size: 140%;
 }
 
@@ -347,4 +349,14 @@ button:hover {
 .submit:hover {
   background-color: red; /* Green */
   color: rgb(0, 0, 0);
+}
+
+.skills-list-div {
+  width: fit-content;
+}
+
+.skills-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

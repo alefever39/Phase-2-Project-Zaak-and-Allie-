@@ -3,8 +3,8 @@
     {
       "name": "Ms. Testingson",
       "health": "1",
-      "race": "Halfling",
-      "class": "Barbarian",
+      "race": "halfling",
+      "class": "barbarian",
       "strength": "23",
       "dexterity": "12",
       "constitution": "21",
@@ -18,8 +18,10 @@
         "common"
       ],
       "proficiencyList": [
-        "stealth"
+        "stealth",
+        "Skill: Acrobatics"
       ],
+      "proficiencyBonus": "4",
       "background": "person",
       "backstory": "person",
       "gender": "Female",
@@ -30,14 +32,16 @@
       "weight": "12351346",
       "image": "https://i.pinimg.com/originals/e2/9e/aa/e29eaa12d2cdc4e428cebd394fc05186.jpg",
       "alignment": "lawful good",
-      "faith": "none",
-      "id": 2
+      "faith": "some",
+      "id": 2,
+      "ac": "10",
+      "speed": "25"
     },
     {
       "name": "optimus prime",
       "health": "50",
-      "race": "Dragonborn",
-      "class": "Fighter",
+      "race": "dragonborn",
+      "class": "fighter",
       "strength": "13",
       "dexterity": "10",
       "constitution": "3",
@@ -56,6 +60,7 @@
         "stealth",
         "lockpicking"
       ],
+      "proficiencyBonus": 1,
       "background": "background",
       "backstory": "backstory goes here",
       "gender": "Male",
@@ -101,7 +106,7 @@
       "image": "https://i.pinimg.com/originals/0f/0d/25/0f0d250fe7e1d5777b9a6582f4046fab.png",
       "alignment": "lawful evil",
       "faith": "",
-      "id": 4
+      "id": 7
     },
     {
       "name": "Fizzlebits",
@@ -135,6 +140,91 @@
       "image": "https://sagegamers.com/ezoimgfmt/149658804.v2.pressablecdn.com/wp-content/uploads/2021/12/pasted-image-0-1.png?ezimgfmt=ng%3Awebp%2Fngcb1%2Frs%3Adevice%2Frscb1-2",
       "alignment": "",
       "faith": "",
+      "id": 6,
+      "ac": "10"
+    },
+    {
+      "name": "Hermy-One",
+      "health": "45",
+      "race": "human",
+      "class": "wizard",
+      "strength": 10,
+      "dexterity": 10,
+      "constitution": 10,
+      "intelligence": "100",
+      "wisdom": 10,
+      "charisma": 10,
+      "spellList": [
+        "Prismatic Wall",
+        "Weird",
+        "Wish",
+        "Time Stop"
+      ],
+      "languageList": [
+        "Common"
+      ],
+      "proficiencyList": [
+        "Skill: Acrobatics"
+      ],
+      "proficiencyBonus": 1,
+      "background": "",
+      "backstory": "Believes expulsion is worse than death",
+      "gender": "Female",
+      "hair": "Curly Brown",
+      "skin": "White",
+      "eyes": "I don't remember",
+      "height": "5",
+      "weight": "130",
+      "image": "https://easydrawingguides.com/wp-content/uploads/2021/05/Hermione-Granger-Step-10.png",
+      "alignment": "lawful good",
+      "faith": "Books",
+      "id": 4,
+      "ac": "10"
+    },
+    {
+      "name": "Caster Person",
+      "health": "8",
+      "race": "elf",
+      "class": "sorcerer",
+      "strength": "8",
+      "dexterity": 10,
+      "constitution": 10,
+      "intelligence": "12",
+      "wisdom": "11",
+      "charisma": "18",
+      "spellList": [
+        "Fire Bolt",
+        "Light",
+        "Mage Hand",
+        "Prestidigitation"
+      ],
+      "languageList": [
+        "Elvish",
+        "Common"
+      ],
+      "proficiencyList": [
+        "Skill: Arcana",
+        "Skill: Persuasion",
+        "Daggers",
+        "Quarterstaffs",
+        "Slings",
+        "skill: Deception",
+        "Skill: Deception"
+      ],
+      "proficiencyBonus": 1,
+      "background": "",
+      "backstory": "I cast the most awesomest of spells.",
+      "gender": "Female",
+      "hair": "Long Purple",
+      "skin": "Darkish",
+      "eyes": "Pink",
+      "height": "5.6",
+      "weight": "120",
+      "image": "https://images7.alphacoders.com/103/thumb-1920-1034807.jpg",
+      "alignment": "Chaotic Good",
+      "faith": "Bahamut",
+      "ac": 10,
+      "speed": 30,
       "id": 5
     }
   ],
