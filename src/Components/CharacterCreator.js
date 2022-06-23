@@ -1,45 +1,74 @@
-
 import { useEffect, useState } from "react";
-// import { Card, Form, Grid } from "semantic-ui-react";
+import InfoCardContainer from "./InfoCardContainer";
+import DetailsContainer from "./DetailsContainer";
 
-function CharacterCreator() {
-  const defaultForm = {
-    name: "",
-    health: 0,
-    race: "Human",
-    class: "Barbarian",
-    strength: 0,
-    dexterity: 0,
-    constitution: 0,
-    intelligence: 0,
-    wisdom: 0,
-    charisma: 0,
-    spellList: [],
-    languageList: [],
-    proficiencyList: [],
-    background: "",
-    backstory: "",
-    gender: "Male",
-    hair: "",
-    skin: "",
-    eyes: "",
-    height: 0,
-    weight: 0,
-    image: "",
-    alignment: "",
-    faith: "",
-  };
+function CharacterCreator({ editInfo = "none" }) {
+  //////////////////////////////
+  // variable declarations
+  let defaultForm;
+
+  if (editInfo === "none") {
+    defaultForm = {
+      name: "",
+      health: 0,
+      race: "dragonborn",
+      class: "barbarian",
+      strength: 10,
+      dexterity: 10,
+      constitution: 10,
+      intelligence: 10,
+      wisdom: 10,
+      charisma: 10,
+      spellList: [],
+      languageList: [],
+      proficiencyList: [],
+      background: "",
+      backstory: "",
+      gender: "male",
+      hair: "",
+      skin: "",
+      eyes: "",
+      height: 0,
+      weight: 0,
+      image: "",
+      alignment: "",
+      faith: "",
+    };
+  } else {
+    defaultForm = editInfo;
+  }
+
+  //////////////////////////////
+  // state declarations
   const [formData, setFormData] = useState(defaultForm);
   const [addToList, setAddToList] = useState({
     spell: "",
     proficiency: "",
     language: "",
   });
+  const [getInfo, setGetInfo] = useState(true);
 
+  const [moreInfoDetails, setMoreInfoDetails] = useState({
+    infoType: "none",
+    infoList: [],
+    iconList: [],
+    readyToLoad: false,
+    displayDetails: false,
+    detailImage: "",
+    index: "",
+    spellLevel: 0,
+  });
+
+  const { infoType, readyToLoad, displayDetails, spellLevel } = moreInfoDetails;
+
+  ///////////////////////////////////////
+  // algorithims
   function calculateStatModifier(statLevel) {
     return Math.floor((statLevel - 10) / 2);
   }
 
+  //////////////////////////////////////
+  // character creation functions
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
@@ -63,568 +92,733 @@ function CharacterCreator() {
     });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(formData);
-    fetch("http://localhost:8001/characters", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => window.alert(error));
-    setFormData(defaultForm);
+  //////////////////////////////////////
+  // "More Info" functions
+
+  // gets the information from the dnd API and the images from the local database based on what the moreInfo state currently is.
+  //
+  useEffect(() => {
+    if (infoType !== "none") {
+      let dndAddress;
+      let localAddress;
+      if (infoType !== "spells") {
+        dndAddress = infoType;
+        localAddress = infoType;
+      } else {
+        dndAddress = `classes/${formData.class}/levels/${spellLevel}/spells`;
+        localAddress = infoType;
+      }
+
+      let tempInfoList;
+
+      fetch(`https://www.dnd5eapi.co/api/${dndAddress}`)
+        .then((response) => response.json())
+        .then((data) => {
+          tempInfoList = data.results;
+          secondFetch();
+        })
+        .catch((error) => window.alert(error));
+
+      function secondFetch() {
+        fetch(`http://localhost:8001/${localAddress}`)
+          .then((response) => response.json())
+          .then((data) => {
+            setMoreInfoDetails({
+              ...moreInfoDetails,
+              iconList: data,
+              infoList: tempInfoList,
+              readyToLoad: true,
+            });
+          })
+          .catch((error) => window.alert(error));
+      }
+    }
+  }, [getInfo]);
+
+  function handleLevelChange(e) {
+    setMoreInfoDetails({
+      ...moreInfoDetails,
+      spellLevel: parseInt(e.target.value),
+    });
+    setGetInfo((getInfo) => !getInfo);
   }
 
+  // When a more info button is clicked this will set readyToLoad to false, clear infoList and iconList, and
+  // switch the moreInfo state to match the clicked button.
+  function handleInfoClick(e) {
+    e.preventDefault();
+    setMoreInfoDetails({
+      ...moreInfoDetails,
+      infoList: [],
+      iconList: [],
+      readyToLoad: false,
+      infoType: e.target.name,
+    });
+    setGetInfo((getInfo) => !getInfo);
+  }
+
+  function handleGoBackClick(e) {
+    e.preventDefault();
+    setMoreInfoDetails({
+      ...moreInfoDetails,
+      displayDetails: false,
+    });
+  }
+
+  // Checks if moreInfo is either "none" or if infoList doesn't match iconList. If both are not true, creates a card div for each of the items that
+  // need to be rendered on the screen.
+
+
+  function handleInfoCardClick(image, index) {
+    setMoreInfoDetails({
+      ...moreInfoDetails,
+      detailImage: image,
+      index: index,
+      displayDetails: true,
+    });
+    // if (infoType === "races") {
+    //   setDetailInfo(<RaceDetails image={image} race={index} />);
+    // }
+  }
+
+  function MountInfoCardContainer() {
+    if (infoType === "none") {
+      return (
+        <img
+          className="more-info-details"
+          src="https://external-preview.redd.it/y4qMZUqJjJmoSNQxAnRXFNuXqoF0TtdsfAkSkpb1RPg.jpg?auto=webp&s=8dbab7089b5170dfb2c545a7f722f09999fe7c03"
+        />
+      );
+    } else if (!readyToLoad) {
+      return <p>Loading...</p>;
+    } else {
+      return (
+        <InfoCardContainer
+          moreInfoDetails={moreInfoDetails}
+          onClick={handleInfoCardClick}
+        />
+      );
+    }
+  }
+
+  //////////////////////////////////////////
+  // Handle Submit
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (editInfo === "none") {
+      fetch("http://localhost:8001/characters", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => window.alert(error));
+      setFormData(defaultForm);
+    } else {
+      fetch(`http://localhost:8001/characters/${formData.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => window.alert(error));
+    }
+  }
+
+  //////////////////////////////////
+  // The rendered page:
   return (
-    <div>
-      <form id="character-form" onSubmit={handleSubmit}>
-        <fieldset>
-          <h4>General Information</h4>
-          {/* name */}
-          <label name="name">Name: </label>
-          <input
-            className="nameInput"
-            type="text"
-            name="name"
-            placeholder="Enter Name Here"
-            onChange={handleChange}
-            value={formData.name}
-          />
-          <br />
-          <br />
+    <div id="character-creation">
+      <div>
+        <h2>Character Sheet</h2>
+        <form id="character-form" onSubmit={handleSubmit}>
+          <fieldset>
+            <h4>General Information</h4>
+            {/* name */}
+            <div>
+              <label name="name">Name: </label>
+              <input
+                className="nameInput"
+                type="text"
+                name="name"
+                placeholder="Enter Name Here"
+                onChange={handleChange}
+                value={formData.name}
+              />
+            </div>
+            <br />
 
-          {/* health */}
-          <label name="name">Max HP: </label>
-          <input
-            className="numberInput"
-            type="number"
-            name="health"
-            placeholder="Enter Max HP"
-            onChange={handleChange}
-            value={formData.health}
-          />
-          <br />
-          <br />
-
-          {/* race inputs */}
-          <label name="race">Race: </label>
-          <select name="race" onChange={handleChange} value={formData.race}>
-            <option name="race">Dwarf</option>
-            <option name="race">Elf</option>
-            <option name="race">Halfling</option>
-            <option name="race">Human</option>
-            <option name="race">Dragonborn</option>
-            <option name="race">Gnome</option>
-            <option name="race">Half-Elf</option>
-            <option name="race">Half-Orc</option>
-            <option name="race">Tiefling</option>
-          </select>
-
-          {/* class inputs */}
-          <label name="class">Class: </label>
-          <select name="class" onChange={handleChange} value={formData.class}>
-            <option name="class" value="barbarian">
-              Barbarian
-            </option>
-            <option name="class" value="bard">
-              Bard
-            </option>
-            <option name="class" value="cleric">
-              Cleric
-            </option>
-            <option name="class" value="druid">
-              Druid
-            </option>
-            <option name="class" value="fighter">
-              Fighter
-            </option>
-            <option name="class" value="monk">
-              Monk
-            </option>
-            <option name="class" value="paladin">
-              Paladin
-            </option>
-            <option name="class" value="ranger">
-              Ranger
-            </option>
-            <option name="class" value="rogue">
-              Rogue
-            </option>
-            <option name="class" value="sorcerer">
-              Sorcerer
-            </option>
-            <option name="class" value="warlock">
-              Warlock
-            </option>
-            <option name="class" value="wizard">
-              Wizard
-            </option>
-          </select>
-          <br />
-        </fieldset>
-        <br />
-
-        {/* Stat section */}
-        <fieldset className="statSection">
-          <h4>Stats</h4>
-          <div className="statForm">
-            <fieldset className="statBlock">
-              <legend>Strength</legend>
-              <label name="strengthStat">Base Stat: </label>
+            {/* health */}
+            <div>
+              <label name="name">Max HP: </label>
               <input
                 className="numberInput"
                 type="number"
-                name="strength"
-                value={formData.strength}
+                name="health"
+                placeholder="Enter Max HP"
+                onChange={handleChange}
+                value={formData.health}
+              />
+            </div>
+            <br />
+
+            {/* race inputs */}
+            <div className="race-class">
+              <div>
+                <label name="race">Race: </label>
+                <select
+                  name="race"
+                  onChange={handleChange}
+                  value={formData.race}
+                >
+                  <option name="race" value="dragonbon">
+                    Dragonbon
+                  </option>
+                  <option name="race" value="dwarf">
+                    Dwarf
+                  </option>
+                  <option name="race" value="elf">
+                    Elf
+                  </option>
+                  <option name="race" value="gnome">
+                    Gnome
+                  </option>
+                  <option name="race" value="half-elf">
+                    Half-Elf
+                  </option>
+                  <option name="race" value="Half-Orc">
+                    Half-Orc
+                  </option>
+                  <option name="race" value="halfling">
+                    Halfling
+                  </option>
+                  <option name="race" value="human">
+                    Human
+                  </option>
+                  <option name="race" value="tiefling">
+                    Tiefling
+                  </option>
+                </select>
+                <button name="races" onClick={handleInfoClick}>
+                  More Info
+                </button>
+              </div>
+
+              {/* class inputs */}
+
+              <div>
+                <label name="class">Class: </label>
+                <select
+                  name="class"
+                  onChange={handleChange}
+                  value={formData.class}
+                >
+                  <option name="class" value="barbarian">
+                    Barbarian
+                  </option>
+                  <option name="class" value="bard">
+                    Bard
+                  </option>
+                  <option name="class" value="cleric">
+                    Cleric
+                  </option>
+                  <option name="class" value="druid">
+                    Druid
+                  </option>
+                  <option name="class" value="fighter">
+                    Fighter
+                  </option>
+                  <option name="class" value="monk">
+                    Monk
+                  </option>
+                  <option name="class" value="paladin">
+                    Paladin
+                  </option>
+                  <option name="class" value="ranger">
+                    Ranger
+                  </option>
+                  <option name="class" value="rogue">
+                    Rogue
+                  </option>
+                  <option name="class" value="sorcerer">
+                    Sorcerer
+                  </option>
+                  <option name="class" value="warlock">
+                    Warlock
+                  </option>
+                  <option name="class" value="wizard">
+                    Wizard
+                  </option>
+                </select>
+                <button name="classes" onClick={handleInfoClick}>
+                  More Info
+                </button>
+              </div>
+            </div>
+            <br />
+          </fieldset>
+          <br />
+
+          {/* //////////////////////////////////////////// */}
+          {/* Stat section */}
+          <fieldset className="statSection">
+            <div>
+              <h4>Stats</h4>
+            </div>
+            <div className="statForm">
+              {/* strength */}
+              <fieldset className="statBlock">
+                <legend>Strength (STR)</legend>
+                <div id="strength">
+                  <label name="strengthStat">Base Stat: </label>
+                  <input
+                    className="numberInput"
+                    type="number"
+                    name="strength"
+                    value={formData.strength}
+                    onChange={handleChange}
+                  />
+                  <br />
+                  <p className="modifier">
+                    Modifier: {calculateStatModifier(formData.strength)}
+                  </p>
+                </div>
+              </fieldset>
+
+              {/* dexterity */}
+              <fieldset className="statBlock">
+                <legend>Dexterity (DEX)</legend>
+                <div>
+                  <label name="dexterityStat">Base Stat: </label>
+                  <input
+                    className="numberInput"
+                    type="number"
+                    name="dexterity"
+                    value={formData.dexterity}
+                    onChange={handleChange}
+                  />
+                  <br />
+                  <p className="modifier">
+                    Modifier: {calculateStatModifier(formData.dexterity)}
+                  </p>
+                </div>
+              </fieldset>
+
+              {/* constitution */}
+              <fieldset className="statBlock">
+                <legend>Constitution (CON)</legend>
+                <div>
+                  <label name="constitutionStat">Base Stat: </label>
+                  <input
+                    className="numberInput"
+                    type="number"
+                    name="constitution"
+                    value={formData.constitution}
+                    onChange={handleChange}
+                  />
+                  <br />
+                  <p className="modifier">
+                    Modifier: {calculateStatModifier(formData.constitution)}
+                  </p>
+                </div>
+              </fieldset>
+              <br />
+
+              {/* intelligence */}
+              <fieldset className="statBlock">
+                <legend>Intelligence (INT)</legend>
+                <div>
+                  <label name="intelligenceStat">Base Stat: </label>
+                  <input
+                    className="numberInput"
+                    type="number"
+                    name="intelligence"
+                    value={formData.intelligence}
+                    onChange={handleChange}
+                  />
+                  <br />
+                  <p className="modifier">
+                    Modifier: {calculateStatModifier(formData.intelligence)}
+                  </p>
+                </div>
+              </fieldset>
+
+              {/* wisdom */}
+              <fieldset className="statBlock">
+                <legend>Wisdom (WIS)</legend>
+                <div>
+                  <label name="wisdomStat">Base Stat: </label>
+                  <input
+                    className="numberInput"
+                    type="number"
+                    name="wisdom"
+                    value={formData.wisdom}
+                    onChange={handleChange}
+                  />
+                  <br />
+                  <p className="modifier">
+                    Modifier: {calculateStatModifier(formData.wisdom)}
+                  </p>
+                </div>
+              </fieldset>
+
+              {/* charisma */}
+              <fieldset className="statBlock">
+                <legend>Charisma (CHA)</legend>
+                <div>
+                  <label name="charsimaStat">Base Stat: </label>
+                  <input
+                    className="numberInput"
+                    type="number"
+                    name="charisma"
+                    value={formData.charisma}
+                    onChange={handleChange}
+                  />
+                  <br />
+                  <p className="modifier">
+                    Modifier: {calculateStatModifier(formData.charisma)}
+                  </p>
+                </div>
+              </fieldset>
+            </div>
+            {/* More Info button */}
+            <div>
+              <button name="ability-scores" onClick={handleInfoClick}>
+                More Info
+              </button>
+            </div>
+          </fieldset>
+
+          <br />
+
+          {/* /////////////////////////////////////////////////////// */}
+          {/* Spells list */}
+          <fieldset>
+            <h4>Spells</h4>
+
+            <div>
+              <input
+                type="text"
+                name="spell"
+                placeholder="New Spell"
+                value={addToList.spell}
+                onChange={handleListChange}
+              />
+              <button onClick={handleAddToList} name="spellList">
+                Add
+              </button>
+
+              <div>
+                <p className="space-above">class: {formData.class}</p>
+                <label name="level">Level: </label>
+                <select
+                  name="level"
+                  value={spellLevel}
+                  onChange={handleLevelChange}
+                >
+                  <option name="level" value="0">
+                    0
+                  </option>
+                  <option name="level" value="1">
+                    1
+                  </option>
+                  <option name="level" value="2">
+                    2
+                  </option>
+                  <option name="level" value="3">
+                    3
+                  </option>
+                  <option name="level" value="4">
+                    4
+                  </option>
+                  <option name="level" value="5">
+                    5
+                  </option>
+                  <option name="level" value="6">
+                    6
+                  </option>
+                  <option name="level" value="7">
+                    7
+                  </option>
+                  <option name="level" value="8">
+                    8
+                  </option>
+                  <option name="level" value="9">
+                    9
+                  </option>
+                </select>
+                <button name="spells" onClick={handleInfoClick}>
+                  More Info
+                </button>
+              </div>
+            </div>
+            <p
+              className="space-above"
+              style={{ "text-decoration": "underline" }}
+            >
+              Spell List
+            </p>
+            <ul className="formList">
+              {formData.spellList.map((spell) => (
+                <li key={spell}>{spell}</li>
+              ))}
+            </ul>
+          </fieldset>
+          <br />
+
+          {/* /////////////////////////////////////////////////////// */}
+          {/* Proficiencies selection */}
+          <fieldset>
+            <h4>Proficiencies</h4>
+            <div>
+              <input
+                type="text"
+                name="proficiency"
+                placeholder="New Proficiency"
+                value={addToList.proficiency}
+                onChange={handleListChange}
+              />
+              <button onClick={handleAddToList} name="proficiencyList">
+                Add
+              </button>
+              <button name="proficiencies" onClick={handleInfoClick}>
+                More Info
+              </button>
+            </div>
+            <p
+              className="space-above"
+              style={{ "text-decoration": "underline" }}
+            >
+              Proficiency List
+            </p>
+            <ul className="formList">
+              {formData.proficiencyList.map((proficiency) => (
+                <li key={proficiency}>{proficiency}</li>
+              ))}
+            </ul>
+          </fieldset>
+          <br />
+
+          {/* /////////////////////////////////////////////////////// */}
+          {/* Languages selection */}
+          <fieldset>
+            <h4>Languages</h4>
+            <div>
+              <input
+                type="text"
+                name="language"
+                placeholder="New Language"
+                value={addToList.language}
+                onChange={handleListChange}
+              />
+              <button onClick={handleAddToList} name="languageList">
+                Add
+              </button>
+              <button name="languages" onClick={handleInfoClick}>
+                More Info
+              </button>
+            </div>
+            <p
+              className="space-above"
+              style={{ "text-decoration": "underline" }}
+            >
+              Known Languages
+            </p>
+            <ul className="formList">
+              {formData.languageList.map((language) => (
+                <li key={language}>{language}</li>
+              ))}
+            </ul>
+          </fieldset>
+
+          <br />
+
+          {/* /////////////////////////////////////////////////////// */}
+          {/* Character Details */}
+          <fieldset>
+            <h4>Character Details</h4>
+
+            <div>
+              {/* alignment */}
+              <div>
+                <label name="alignment">Alignment: </label>
+                <input
+                  className="textInput"
+                  type="text"
+                  name="alignment"
+                  value={formData.alignment}
+                  onChange={handleChange}
+                />
+                <button name="alignments" onClick={handleInfoClick}>
+                  More Info
+                </button>
+              </div>
+
+              {/* faith */}
+              <div>
+                <label name="faith">Faith: </label>
+                <input
+                  className="textInput"
+                  type="text"
+                  name="faith"
+                  value={formData.faith}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <br />
+
+            <div>
+              {/* gender */}
+              <div>
+                <label name="gender">Gender: </label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                >
+                  <option name="gender" value="male">
+                    Male
+                  </option>
+                  <option name="gender" value="female">
+                    Female
+                  </option>
+                  <option name="gender" value="non-binary">
+                    Non Binary
+                  </option>
+                </select>
+              </div>
+
+              {/* hair */}
+              <div>
+                <label name="hair">Hair: </label>
+                <input
+                  className="descriptionInput"
+                  type="text"
+                  name="hair"
+                  value={formData.hair}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* skin */}
+              <div>
+                <label name="skin">Skin: </label>
+                <input
+                  className="descriptionInput"
+                  type="text"
+                  name="skin"
+                  value={formData.skin}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* eyes */}
+              <div>
+                <label name="eyes">Eyes: </label>
+                <input
+                  className="descriptionInput"
+                  type="text"
+                  name="eyes"
+                  value={formData.eyes}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <br />
+
+            {/* height */}
+            <div>
+              <label name="height">Height: </label>
+              <input
+                className="numberInput"
+                type="number"
+                name="height"
+                value={formData.height}
                 onChange={handleChange}
               />
-              <br />
-              <label name="strengthModifier">Modifier: </label>
-              <input
-                type="number"
-                className="numberInput"
-                name="strengthModifier"
-                value={calculateStatModifier(formData.strength)}
-              />
-            </fieldset>
-            <fieldset className="statBlock">
-              <legend>Dexterity</legend>
-              <label name="dexterityStat">Base Stat: </label>
+            </div>
+
+            {/* weight */}
+            <div>
+              <label name="weight">Weight: </label>
               <input
                 className="numberInput"
                 type="number"
-                name="dexterity"
-                value={formData.dexterity}
+                name="weight"
+                value={formData.weight}
                 onChange={handleChange}
               />
-              <br />
-              <label name="dexterityModifier">Modifier: </label>
+            </div>
+            <br />
+
+            {/* image input */}
+            <div>
+              <label name="image">Image: </label>
               <input
-                type="number"
-                className="numberInput"
-                name="dexterityModifier"
-                value={calculateStatModifier(formData.dexterity)}
-              />
-            </fieldset>
-            <fieldset className="statBlock">
-              <legend>Constitution</legend>
-              <label name="constitutionStat">Base Stat: </label>
-              <input
-                className="numberInput"
-                type="number"
-                name="constitution"
-                value={formData.constitution}
+                type="text"
+                placeholder="Enter Image URL"
+                name="image"
+                value={formData.image}
                 onChange={handleChange}
               />
-              <br />
-              <label name="constitutionModifier">Modifier: </label>
+            </div>
+
+            {/* background input */}
+            <div>
+              <label name="background">Background: </label>
               <input
-                type="number"
-                className="numberInput"
-                name="constitutionModifier"
-                value={calculateStatModifier(formData.constitution)}
-              />
-            </fieldset>
-            <fieldset className="statBlock">
-              <legend>Intelligence</legend>
-              <label name="intelligenceStat">Base Stat: </label>
-              <input
-                className="numberInput"
-                type="number"
-                name="intelligence"
-                value={formData.intelligence}
+                type="text"
+                placeholder="Enter Background"
+                name="background"
+                value={formData.background}
                 onChange={handleChange}
               />
+            </div>
+            <br />
+
+            {/* backstory input */}
+            <div>
+              <label for="backstory">Backstory:</label>
               <br />
-              <label name="intelligenceModifier">Modifier: </label>
-              <input
-                type="number"
-                className="numberInput"
-                name="intelligenceModifier"
-                value={calculateStatModifier(formData.intelligence)}
-              />
-            </fieldset>
-            <fieldset className="statBlock">
-              <legend>Wisdom</legend>
-              <label name="wisdomStat">Base Stat: </label>
-              <input
-                className="numberInput"
-                type="number"
-                name="wisdom"
-                value={formData.wisdom}
+              <textarea
+                id="backstory"
+                name="backstory"
                 onChange={handleChange}
-              />
-              <br />
-              <label name="wisdomModifier">Modifier: </label>
-              <input
-                type="number"
-                className="numberInput"
-                name="wisdomModifier"
-                value={calculateStatModifier(formData.wisdom)}
-              />
-            </fieldset>
-            <fieldset className="statBlock">
-              <legend>Charisma</legend>
-              <label name="charsimaStat">Base Stat: </label>
-              <input
-                className="numberInput"
-                type="number"
-                name="charisma"
-                value={formData.charisma}
-                onChange={handleChange}
-              />
-              <br />
-              <label name="charsimaModifier">Modifier: </label>
-              <input
-                type="number"
-                className="numberInput"
-                name="charsimaModifier"
-                value={calculateStatModifier(formData.charisma)}
-              />
-            </fieldset>
-          </div>
-        </fieldset>
-
-        <br />
-
-        {/* Spells list */}
-        <fieldset>
-          <h4>Spells</h4>
-          <input
-            type="text"
-            name="spell"
-            placeholder="New Spell"
-            value={addToList.spell}
-            onChange={handleListChange}
-          />
-          <button onClick={handleAddToList} name="spellList">
-            Add
-          </button>
-          <ul>
-            {formData.spellList.map((spell) => (
-              <li key={spell}>{spell}</li>
-            ))}
-          </ul>
-        </fieldset>
-        <br />
-
-        {/* Proficiencies selection */}
-        <fieldset>
-          <h4>Proficiencies</h4>
-          <input
-            type="text"
-            name="proficiency"
-            placeholder="New Proficiency"
-            value={addToList.proficiency}
-            onChange={handleListChange}
-          />
-          <button onClick={handleAddToList} name="proficiencyList">
-            Add
-          </button>
-          <ul>
-            {formData.proficiencyList.map((proficiency) => (
-              <li key={proficiency}>{proficiency}</li>
-            ))}
-          </ul>
-        </fieldset>
-        <br />
-
-        {/* Languages selection */}
-        <fieldset>
-          <h4>Languages</h4>
-          <input
-            type="text"
-            name="language"
-            placeholder="New Language"
-            value={addToList.language}
-            onChange={handleListChange}
-          />
-          <button onClick={handleAddToList} name="languageList">
-            Add
-          </button>
-          <ul>
-            {formData.languageList.map((language) => (
-              <li key={language}>{language}</li>
-            ))}
-          </ul>
-        </fieldset>
-
-        <br />
-
-        {/* Character Details */}
-        <fieldset>
-          <h4>Character Details</h4>
-
-          {/* alignment */}
-          <label name="alignment">Alignment: </label>
-          <input
-            className="textInput"
-            type="text"
-            name="alignment"
-            value={formData.alignment}
-            onChange={handleChange}
-          />
-
-          {/* faith */}
-          <label name="faith">Faith: </label>
-          <input
-            className="textInput"
-            type="text"
-            name="faith"
-            value={formData.faith}
-            onChange={handleChange}
-          />
-          <br />
+                value={formData.backstory}
+              ></textarea>
+            </div>
+          </fieldset>
           <br />
 
-          {/* gender */}
-          <label name="gender">Gender: </label>
-          <select name="gender" value={formData.gender} onChange={handleChange}>
-            <option name="gender">Male</option>
-            <option name="gender">Female</option>
-            <option name="gender">Non Binary</option>
-          </select>
-
-          {/* hair */}
-          <label name="hair">Hair: </label>
-          <input
-            className="descriptionInput"
-            type="text"
-            name="hair"
-            value={formData.hair}
-            onChange={handleChange}
-          />
-
-          {/* skin */}
-          <label name="skin">Skin: </label>
-          <input
-            className="descriptionInput"
-            type="text"
-            name="skin"
-            value={formData.skin}
-            onChange={handleChange}
-          />
-
-          {/* eyes */}
-          <label name="eyes">Eyes: </label>
-          <input
-            className="descriptionInput"
-            type="text"
-            name="eyes"
-            value={formData.eyes}
-            onChange={handleChange}
-          />
-          <br />
-          <br />
-
-          {/* height */}
-          <label name="height">Height: </label>
-          <input
-            className="numberInput"
-            type="number"
-            name="height"
-            value={formData.height}
-            onChange={handleChange}
-          />
-
-          {/* weight */}
-          <label name="weight">Weight: </label>
-          <input
-            className="numberInput"
-            type="number"
-            name="weight"
-            value={formData.weight}
-            onChange={handleChange}
-          />
-          <br />
-          <br />
-
-          {/* image input */}
-          <label name="image">Image: </label>
-          <input
-            type="text"
-            placeholder="Enter Image URL"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-          />
-
-          {/* background input */}
-          <label name="background">Background: </label>
-          <input
-            type="text"
-            placeholder="Enter Background"
-            name="background"
-            value={formData.background}
-            onChange={handleChange}
-          />
-          <br />
-          <br />
-
-          {/* backstory input */}
-          <label for="backstory">Backstory:</label>
-          <textarea
-            id="backstory"
-            name="backstory"
-            rows="20"
-            cols="75"
-            onChange={handleChange}
-            value={formData.backstory}
-          ></textarea>
-        </fieldset>
-        <br />
-
-        {/* submit button */}
-        <input type="submit" value="Create Character" />
-      </form>
-      <section></section>
+          {/* submit button */}
+          <fieldset>
+            <input type="submit" value="Create Character" />
+          </fieldset>
+        </form>
+      </div>
+      <div id="moreInfo">
+        <h2>More Info</h2>
+        <div>
+          {displayDetails ? (
+            <DetailsContainer
+              moreInfoDetails={moreInfoDetails}
+              onClick={handleGoBackClick}
+            />
+          ) : (
+            MountInfoCardContainer()
+          )}
+        </div>
+      </div>
     </div>
   );
 }
 
 export default CharacterCreator;
-
-{
-  /* <div>
-<h3>Character Creator</h3>
-<br />
-<Form id="character-form">
-  <Form.Input fluid label="Character Name" placeholder="Enter Name" />
-  <h4>General Information</h4>
-  <Grid width="3" id="generalInfo">
-    <Grid.Row>
-      <Grid.Column>
-        <Form.Field label="Gender" control="select">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="nonBinary">Non Binary</option>
-        </Form.Field>
-      </Grid.Column>
-      <Grid.Column>
-        <Form.Field
-          label="Height (ft)"
-          control="input"
-          type="number"
-          step="any"
-        />
-      </Grid.Column>
-      <Grid.Column>
-        <Form.Field
-          label="Weight (lbs)"
-          control="input"
-          type="number"
-          step="any"
-        />
-      </Grid.Column>
-    </Grid.Row>
-
-    <Grid.Column>
-      <Grid.Row>
-        <Form.Input fluid label="Eye Color" placeholder="Marigold" />
-      </Grid.Row>
-    </Grid.Column>
-  </Grid>
-  <br />
-  <label name="gender">Gender: </label>
-  <select name="gender">
-    <option name="gender">Male</option>
-    <option name="gender">Female</option>
-    <option name="gender">Non Binary</option>
-  </select>
-  <br />
-  <label name="class">Race: </label>
-  <select name="class">
-    <option name="class">Dwarf</option>
-    <option name="class">Elf</option>
-    <option name="class">Halfling</option>
-    <option name="class">Human</option>
-    <option name="class">Dragonbon</option>
-    <option name="class">Gnome</option>
-    <option name="class">Half-Elf</option>
-    <option name="class">Half-Orc</option>
-    <option name="class">Tiefling</option>
-  </select>
-  <br />
-  <label name="class">Class: </label>
-  <select name="class" onChange={onClassChange} value={formData.class}>
-    <option name="class" value="barbarian">
-      Barbarian
-    </option>
-    <option name="class" value="bard">
-      Bard
-    </option>
-    <option name="class">Cleric</option>
-    <option name="class">Druid</option>
-    <option name="class">Fighter</option>
-    <option name="class">Monk</option>
-    <option name="class">Paladin</option>
-    <option name="class">Ranger</option>
-    <option name="class">Rogue</option>
-    <option name="class">Sorcerer</option>
-    <option name="class">Warlock</option>
-    <option name="class">Wizard</option>
-  </select>
-  <br />
-  <label name="name">image: </label>
-  <input type="text" placeholder="Enter Image URL" />
-  <br />
-  <label name="name">Max Hit Points: </label>
-  <input type="text" placeholder="Enter Max HP" />
-  <fieldset>
-    <legend>Stats</legend>
-    <fieldset>
-      <legend>Strength: </legend>
-      <label name="dexteritystat">Base Stat: </label>
-      <input type="number" />
-      <label name="strengthModifier">Modifier: </label>
-      <input type="number" className="modifier" name="strengthModifier" />
-    </fieldset>
-    <fieldset>
-      <legend>Dexterity: </legend>
-      <label name="dexteritystat">Base Stat: </label>
-      <input type="number" />
-      <label name="dexterityModifier">Modifier: </label>
-      <input
-        type="number"
-        className="modifier"
-        name="dexterityModifier"
-      />
-    </fieldset>
-    <br />
-
-    <fieldset>
-      <legend>Spells</legend>
-      <label name="spellLevel">Level: </label>
-      <select
-        name="spellLevel"
-        onChange={onSpellLevelChange}
-        value={spellLevel}
-      >
-        <option name="spellLevel">-</option>
-        <option name="spellLevel">0</option>
-        <option name="spellLevel">1</option>
-        <option name="spellLevel">2</option>
-        <option name="spellLevel">3</option>
-        <option name="spellLevel">4</option>
-        <option name="spellLevel">5</option>
-        <option name="spellLevel">6</option>
-        <option name="spellLevel">7</option>
-        <option name="spellLevel">8</option>
-        <option name="spellLevel">9</option>
-      </select>
-      <ul>
-        Spell List:
-        {spells}
-      </ul>
-    </fieldset>
-  </fieldset>
-</Form>
-<Card>
-  <h3>Testing</h3>
-</Card>
-</div> */
-}
