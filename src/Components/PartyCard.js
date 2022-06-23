@@ -1,9 +1,16 @@
 
 import CharacterCard from "./CharacterCard"
 
-function PartyCard({character, partyName, onMoveCharacter, onDelete}){
+function PartyCard({character, partyName, onMoveCharacter, onDelete, onDetailClick, onDeleteParty, partyId}){
 
-        
+    function handleDeleteParty(){
+            fetch(`http://localhost:8001/partys/${partyId}`,{
+            method:"DELETE",
+        })
+        .then((r)=> r.json())
+        .then(()=> onDeleteParty(partyId))
+        }
+     
 
     const partyMembers = character.map((character)=>(
         <CharacterCard
@@ -12,15 +19,16 @@ function PartyCard({character, partyName, onMoveCharacter, onDelete}){
         origin="party"
         onPartyClick={onMoveCharacter}
         onDelete={onDelete}
+        onDetailClick={onDetailClick}
         />
     ))
 
 
     return(
         <div className="partySheet">
-            <h2>{partyName}</h2>
+            <h1>{partyName}</h1>
             <div>{partyMembers}</div>
-            <hr></hr>
+            <button className="delete" onClick={handleDeleteParty}>Delete Party</button>
         </div>
     )
 }

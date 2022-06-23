@@ -109,9 +109,10 @@ textarea {
   font-size: 200%;
   text-align: center;
   padding: 1px;
-  background-image: url("https://cdn.arstechnica.net/wp-content/uploads/2016/02/DDmonstermanual_th_0-640x215.jpg");
+  background-image: url("https://rubberchickengames.com/wp-content/uploads/2017/04/04-PRODUCT-INFO_Tabletop_Hero_MM.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+}
 
 .modifier {
   margin: 0px;
@@ -187,8 +188,6 @@ p {
   padding: 0px;
 }
 
-}
-
 .navbar {
   display: "inline-block";
   padding: 10px;
@@ -204,11 +203,11 @@ p {
 }
 
 .navbar a.active {
-  background-color: #cbc4c4;
+  background-color: #000;
 }
 
 .navbar a:hover {
-  background-color: #000;
+  background-color:  #b8bdc4;
 }
 
 .cardGrid {
@@ -222,13 +221,13 @@ p {
 .card {
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 10px;
-  width: 350px;
+  width: 300px;
   background-color: aliceblue;
 }
 
 .cardImage{
-  max-width: 300px; 
-  height: 300px;
+  max-width: 250px; 
+  height: 250px;
 }
 
 .party{
@@ -238,12 +237,10 @@ p {
 .filterGrid {
   display: inline-grid;
   width: 60%;
-  grid-template-columns: repeat(auto-fill, 400px);
-  column-gap: 10px;
-  row-gap: 10px;
-  padding: 10px;
-  margin-left: auto;
+  grid-template-columns: repeat(auto-fill, 50%);
   margin-right: auto;
+  margin-left: auto ;
+  
 }
 
 .detailImage{
@@ -312,6 +309,42 @@ p {
   font-size: 140%;
 }
 
-button{
+.partySheet{
+  background-color: #b8bdc4;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+button {
+  transition-duration: 0.4s;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 6px 0 rgba(0,0,0,0.19);
   padding: 5px;
+  margin: 5px;
+  border: 1px solid #000000; 
+  border-radius: 3px;
+  
+}
+
+button:hover {
+  background-color: red; /* Green */
+  color: rgb(0, 0, 0);
+}
+
+.submit{
+  transition-duration: 0.4s;
+  background-color: white;
+  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.10);
+  padding: 5px;
+  margin: 5px;
+  border-radius: 4px;
+  border: 1px solid #000000; 
+}
+
+.submit:hover {
+  background-color: red; /* Green */
+  color: rgb(0, 0, 0);
 }

@@ -1,7 +1,6 @@
 
 function CharacterCard({character, origin, onDetailClick, onPartyClick, onDelete}) {
-
-
+    // console.log(character)
     function handleDelete(){
         fetch(`http://localhost:8001/characters/${character.id}`,{
         method:"DELETE",

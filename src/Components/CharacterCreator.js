@@ -800,7 +800,7 @@ function CharacterCreator({ editInfo = "none" }) {
 
           {/* submit button */}
           <fieldset>
-            <input type="submit" value="Create Character" />
+            <input type="submit" value="Create Character" className="submit" />
           </fieldset>
         </form>
       </div>

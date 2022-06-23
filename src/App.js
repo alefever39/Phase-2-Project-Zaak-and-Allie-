@@ -23,7 +23,7 @@ function App() {
   const [raceFilter, setRaceFilter] = useState ("All")
   const [detailView, setDetailView] = useState (false)
   const [characterSelection, setCharacterSelection] = useState({})
-  const [partys, setNewParty] = ([])
+  const [partys, setNewParty] = useState([])
   const [groups, setGroups] = useState([])
   
 
@@ -101,9 +101,14 @@ function onGoBack() {
   let partyDisplay = 
     groups.map(group=> characters.filter((character)=> group.partyMembers.find((partyMember)=>partyMember === character.name)))
 
-  // console.log(partyDisplay)
     const partyName = groups.map(group=> group.partyName)
-    console.log(partyName)
+    const partyId = groups.map(group=> group.id)
+    
+//Delete Party
+  function handleDeleteParty(partyToDelete){
+    const updatedparty = groups.filter((party)=> party.id !== partyToDelete.id)
+    setGroups(updatedparty)
+  }
 
   return (
     <div className="App">
@@ -114,7 +119,7 @@ function onGoBack() {
           <CharacterCreator />
         </Route>
         <Route exact path="/select">
-            <div className="Party">Build Your Party</div>
+            <h2 className="Party">Build Your Party</h2>
             <Party 
               partyList={party}
               onMoveCharacter = {handleRemoveParty}
@@ -140,12 +145,23 @@ function onGoBack() {
             )}
         </Route>
         <Route path="/party">
+        {detailView ? (
+            <CharacterDetail 
+            character={characterSelection}
+            onPartyAdd={handleAddParty} 
+            onGoBack={onGoBack}
+            />)
+            : (
           <PartySelect 
             partyMembers={partyDisplay} 
             partyName={partyName}
             onMoveCharacter = {handleRemoveParty}
             onDelete={handleDeleteCharacter}
+            onDetailClick={characterSelected}
+            onDeleteParty={handleDeleteParty}
+            partyId={partyId}
             />
+            )}
         </Route>
         <Route exact path="/">
           <Home />
