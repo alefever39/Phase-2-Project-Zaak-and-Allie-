@@ -20,7 +20,7 @@ function App() {
   const [raceFilter, setRaceFilter] = useState("All");
   const [detailView, setDetailView] = useState(false);
   const [characterSelection, setCharacterSelection] = useState({});
-  const [partys, setNewParty] = [];
+  const [partys, setNewParty] = useState([]);
   const [groups, setGroups] = useState([]);
   const [editChar, setEditChar] = useState({});
 
@@ -121,7 +121,7 @@ function App() {
     setNewParty([...partys, newParty]);
   }
 
-  let partyDisplay = groups.map((group) =>
+  const partyDisplay = groups.map((group) =>
     characters.filter((character) =>
       group.partyMembers.find((partyMember) => partyMember === character.name)
     )
