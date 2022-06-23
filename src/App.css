@@ -37,6 +37,10 @@
   }
 }
 
+#character-creation {
+  display: flex;
+  flex-direction: row;
+}
 
 .numberInput {
   width: 5vw;
@@ -49,7 +53,11 @@
 }
 
 .statBlock {
-  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 25%;
+  height: fit-content;
 }
 
 .spell {
@@ -60,12 +68,21 @@ form {
   width: 50vw;
 }
 
-fieldset {
+#moreInfo {
+  height: 100%;
+  width: 50vw;
+}
+
+.more-info-details {
   width: 100%;
 }
 
-ul {
-  list-style: none;
+fieldset {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 90%;
+  background-color: aliceblue;
 }
 
 .descriptionInput {
@@ -76,21 +93,100 @@ ul {
   width: 15vw;
 }
 
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 20vh;
+}
+
 .nameInput {
   width: 25vw;
 }
 
-.header{
-  color:rgb(255, 20, 20);
+.modifier {
+  margin: 0px;
+}
+
+.info-card-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.info-card {
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: aliceblue;
+  align-items: center;
+  padding: 1rem;
+  margin: 5px;
+  width: 25%;
+}
+
+.info-card img {
+  max-width: 6em;
+  height: 6em;
+}
+
+.race-class {
+  display: flex;
+  justify-content: space-around;
+}
+
+p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.space-above {
+  margin-top: 15px;
+}
+
+#details-container {
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: aliceblue;
+  align-items: center;
+  padding: 1rem;
+  margin: 5px;
+}
+
+#details-container img {
+  max-width: 60%;
+}
+
+#profs {
+  border: 1px solid black;
+  border-radius: 4px;
+  align-items: center;
+  margin: 5px;
+}
+
+.profList {
+  list-style-position: inside;
+  padding: 0px;
+}
+
+.formList {
+  list-style-position: inside;
+  padding: 0px;
+}
+
+.no-style-ul {
+  list-style: none;
+  margin: 3px;
+  padding: 0px;
+}
+
+.header {
+  color: rgb(255, 20, 20);
   font-size: 70;
   text-align: center;
   padding: 12px;
-  
 }
 
 .navbar {
   display: "inline-block";
-  padding: 32px,
+  padding: 32px;
 }
 .navbar a {
   float: center;
@@ -110,27 +206,26 @@ ul {
   background-color: #000;
 }
 
-
 .cardGrid {
-display: inline-grid;
-grid-template-columns: repeat(auto-fill, 350px);
-column-gap: 30px;
-row-gap: 30px;
-padding: 30px;
+  display: inline-grid;
+  grid-template-columns: repeat(auto-fill, 350px);
+  column-gap: 30px;
+  row-gap: 30px;
+  padding: 30px;
 }
 
-.card{
+.card {
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 10px;
   width: 350px;
   background-color: aliceblue;
 }
 
-.party{
+.party {
   background-color: #989ca2;
 }
 
-.filterGrid{
+.filterGrid {
   display: inline-grid;
   width: 70%;
   grid-template-columns: repeat(auto-fill, 350px);
