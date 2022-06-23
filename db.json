@@ -106,7 +106,10 @@
       "image": "https://i.pinimg.com/originals/0f/0d/25/0f0d250fe7e1d5777b9a6582f4046fab.png",
       "alignment": "lawful evil",
       "faith": "",
-      "id": 7
+      "id": 7,
+      "ac": "10",
+      "speed": "25",
+      "proficiencyBonus": "2"
     },
     {
       "name": "Fizzlebits",
@@ -141,7 +144,9 @@
       "alignment": "",
       "faith": "",
       "id": 6,
-      "ac": "10"
+      "ac": "10",
+      "speed": "30",
+      "proficiencyBonus": "2"
     },
     {
       "name": "Hermy-One",
@@ -245,6 +250,27 @@
         "Fizzlebits"
       ],
       "id": 6
+    },
+    {
+      "partyName": "Team Sort Of",
+      "partyMembers": [
+        "Caster Person",
+        "optimus prime",
+        "Ms. Testingson"
+      ],
+      "id": 7
+    },
+    {
+      "partyName": "Er'body",
+      "partyMembers": [
+        "Max Power",
+        "optimus prime",
+        "Ms. Testingson",
+        "Fizzlebits",
+        "Hermy-One",
+        "Caster Person"
+      ],
+      "id": 8
     }
   ],
   "ability-scores": [

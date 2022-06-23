@@ -20,9 +20,10 @@ function App() {
   const [raceFilter, setRaceFilter] = useState("All");
   const [detailView, setDetailView] = useState(false);
   const [characterSelection, setCharacterSelection] = useState({});
-  const [partys, setNewParty] = [];
+  // const [partys, setNewParty] = useState([]);
   const [groups, setGroups] = useState([]);
   const [editChar, setEditChar] = useState({});
+  const [saveDest, setSaveDest] = useState("");
 
   const history = useHistory();
 
@@ -64,8 +65,9 @@ function App() {
     setDetailView(false);
   }
 
-  function onEditButton(charToEdit) {
+  function onEditButton(charToEdit, saveDestination) {
     setEditChar(charToEdit);
+    setSaveDest(saveDestination);
     history.push("/edit");
   }
 
@@ -118,7 +120,7 @@ function App() {
 
   //Create Party
   function createParty(newParty) {
-    setNewParty([...partys, newParty]);
+    setGroups([...groups, newParty]);
   }
 
   let partyDisplay = groups.map((group) =>
@@ -127,13 +129,13 @@ function App() {
     )
   );
 
-    const partyName = groups.map(group=> group.partyName)
-    const partyId = groups.map(group=> group.id)
-    
-//Delete Party
-  function handleDeleteParty(partyToDelete){
-    const updatedparty = groups.filter((party)=> party.id !== partyToDelete.id)
-    setGroups(updatedparty)
+  const partyName = groups.map((group) => group.partyName);
+  const partyId = groups.map((group) => group.id);
+
+  //Delete Party
+  function handleDeleteParty(partyToDelete) {
+    const updatedparty = groups.filter((party) => party.id !== partyToDelete);
+    setGroups(updatedparty);
   }
 
   return (
@@ -152,23 +154,25 @@ function App() {
             onCreateCharacter={onCreateCharacter}
             onEditCharacter={onEditCharacter}
             editInfo={editChar}
+            saveDest={saveDest}
           />
         </Route>
         <Route exact path="/select">
-            <h2 className="Party">Build Your Party</h2>
-            <Party 
-              partyList={party}
-              onMoveCharacter = {handleRemoveParty}
-              onDelete={handleDeleteCharacter}
-              onCreateParty={createParty}
-              />
-            <hr></hr>
+          <h2 className="Party">Build Your Party</h2>
+          <Party
+            partyList={party}
+            onMoveCharacter={handleRemoveParty}
+            onDelete={handleDeleteCharacter}
+            onCreateParty={createParty}
+          />
+          <hr></hr>
           {detailView ? (
             <CharacterDetail
               character={characterSelection}
               onPartyAdd={handleAddParty}
               onGoBack={onGoBack}
               onEditButton={onEditButton}
+              saveDestination="select"
             />
           ) : (
             <CharcaterSelection
@@ -182,23 +186,25 @@ function App() {
           )}
         </Route>
         <Route path="/party">
-        {detailView ? (
-            <CharacterDetail 
-            character={characterSelection}
-            onPartyAdd={handleAddParty} 
-            onGoBack={onGoBack}
-            />)
-            : (
-          <PartySelect 
-            partyMembers={partyDisplay} 
-            partyName={partyName}
-            onMoveCharacter={handleRemoveParty}
-            onDelete={handleDeleteCharacter}
-            onDetailClick={characterSelected}
-            onDeleteParty={handleDeleteParty}
-            partyId={partyId}
+          {detailView ? (
+            <CharacterDetail
+              character={characterSelection}
+              onPartyAdd={handleAddParty}
+              onGoBack={onGoBack}
+              onEditButton={onEditButton}
+              saveDestination="party"
             />
-            )}
+          ) : (
+            <PartySelect
+              partyMembers={partyDisplay}
+              partyName={partyName}
+              onMoveCharacter={handleRemoveParty}
+              onDelete={handleDeleteCharacter}
+              onDetailClick={characterSelected}
+              onDeleteParty={handleDeleteParty}
+              partyId={partyId}
+            />
+          )}
         </Route>
         <Route exact path="/">
           <Home />
