@@ -854,6 +854,7 @@ function CharacterCreator({
             <input
               type="submit"
               value={editInfo === "none" ? "Create Character" : "Save Edits"}
+              className="submit"
             />
           </fieldset>
         </form>

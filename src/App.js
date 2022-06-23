@@ -127,8 +127,14 @@ function App() {
     )
   );
 
-  // console.log(partyDisplay)
-  const partyName = groups.map((group) => group.partyName);
+    const partyName = groups.map(group=> group.partyName)
+    const partyId = groups.map(group=> group.id)
+    
+//Delete Party
+  function handleDeleteParty(partyToDelete){
+    const updatedparty = groups.filter((party)=> party.id !== partyToDelete.id)
+    setGroups(updatedparty)
+  }
 
   return (
     <div className="App">
@@ -149,14 +155,14 @@ function App() {
           />
         </Route>
         <Route exact path="/select">
-          <div className="Party">Build Your Party</div>
-          <Party
-            partyList={party}
-            onMoveCharacter={handleRemoveParty}
-            onDelete={handleDeleteCharacter}
-            onCreateParty={createParty}
-          />
-          <hr></hr>
+            <h2 className="Party">Build Your Party</h2>
+            <Party 
+              partyList={party}
+              onMoveCharacter = {handleRemoveParty}
+              onDelete={handleDeleteCharacter}
+              onCreateParty={createParty}
+              />
+            <hr></hr>
           {detailView ? (
             <CharacterDetail
               character={characterSelection}
@@ -176,12 +182,23 @@ function App() {
           )}
         </Route>
         <Route path="/party">
-          <PartySelect
-            partyMembers={partyDisplay}
+        {detailView ? (
+            <CharacterDetail 
+            character={characterSelection}
+            onPartyAdd={handleAddParty} 
+            onGoBack={onGoBack}
+            />)
+            : (
+          <PartySelect 
+            partyMembers={partyDisplay} 
             partyName={partyName}
             onMoveCharacter={handleRemoveParty}
             onDelete={handleDeleteCharacter}
-          />
+            onDetailClick={characterSelected}
+            onDeleteParty={handleDeleteParty}
+            partyId={partyId}
+            />
+            )}
         </Route>
         <Route exact path="/">
           <Home />
