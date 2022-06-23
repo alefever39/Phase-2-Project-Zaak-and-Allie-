@@ -8,6 +8,7 @@ import Home from "./Components/Home"
 import Header from "./Components/Header";
 import Party from "./Components/Party";
 import CharacterDetail from "./Components/CharacterDetail";
+import PartySelect from "./Components/PartySelect";
 
 
 // API base level https://www.dnd5eapi.co/
@@ -22,13 +23,22 @@ function App() {
   const [raceFilter, setRaceFilter] = useState ("All")
   const [detailView, setDetailView] = useState (false)
   const [characterSelection, setCharacterSelection] = useState({})
+  const [partys, setNewParty] = ([])
+  const [groups, setGroups] = useState([])
   
+
+  useEffect(()=>{
+      fetch("http://localhost:8001/partys")
+      .then((r)=> r.json())
+      .then((groups) => setGroups(groups))
+  }, [])
  
   useEffect(()=>{
     fetch("http://localhost:8001/characters")
     .then((r)=> r.json())
     .then((characters) => setCharacter(characters))
 }, [])
+
 
 //Detail View
 function characterSelected(e, character){
@@ -83,6 +93,17 @@ function onGoBack() {
     setParty(updatedParty)
   }
 
+//Create Party
+  function createParty(newParty){
+    setNewParty([...partys, newParty])
+  }
+
+  let partyDisplay = 
+    groups.map(group=> characters.filter((character)=> group.partyMembers.find((partyMember)=>partyMember === character.name)))
+
+  // console.log(partyDisplay)
+    const partyName = groups.map(group=> group.partyName)
+    console.log(partyName)
 
   return (
     <div className="App">
@@ -98,6 +119,7 @@ function onGoBack() {
               partyList={party}
               onMoveCharacter = {handleRemoveParty}
               onDelete={handleDeleteCharacter}
+              onCreateParty={createParty}
               />
             <hr></hr>
           {detailView ? (
@@ -116,6 +138,14 @@ function onGoBack() {
               onRaceFilter={handleRaceFilter}
               />
             )}
+        </Route>
+        <Route path="/party">
+          <PartySelect 
+            partyMembers={partyDisplay} 
+            partyName={partyName}
+            onMoveCharacter = {handleRemoveParty}
+            onDelete={handleDeleteCharacter}
+            />
         </Route>
         <Route exact path="/">
           <Home />

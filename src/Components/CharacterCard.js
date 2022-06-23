@@ -15,10 +15,11 @@ function CharacterCard({character, origin, onDetailClick, onPartyClick, onDelete
     <div className="cardGrid">
         <div className="card">
             <div className="character" onClick={(e) => onDetailClick(e, character)}>
-            <img src={character.image} alt="character" width="300"></img>
+            <img className="cardImage" src={character.image} alt="character" ></img>
             <h2>{character.name}</h2>
-            <p>Class:{character.class} Race: {character.race}</p>
-            <p>Health: {character.health}</p>
+            <b>Class: </b><a>{character.class}</a> <b>Race: </b><a>{character.race}</a>
+            <div></div>
+            <b>Health: </b> <a>{character.health}</a>
             </div>
             <hr></hr>
             <div className="btns">

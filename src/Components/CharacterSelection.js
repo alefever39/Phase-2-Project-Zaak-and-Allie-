@@ -2,8 +2,8 @@ import CharacterCard from "./CharacterCard"
 import Filters from "./Filters";
 
 function CharacterSelection({characterList, onDetailClick, onPartyAdd, onDelete, onClassFilter, onRaceFilter }) {
-
-    const characterCollection = characterList.map((character)=>(
+    // console.log(characterList)   
+     const characterCollection = characterList.map((character)=>(
         <CharacterCard
         key= {character.name}
         character={character}

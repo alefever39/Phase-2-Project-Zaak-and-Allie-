@@ -117,7 +117,7 @@ function CharacterCreator() {
             <option name="race">Elf</option>
             <option name="race">Halfling</option>
             <option name="race">Human</option>
-            <option name="race">Dragonbon</option>
+            <option name="race">Dragonborn</option>
             <option name="race">Gnome</option>
             <option name="race">Half-Elf</option>
             <option name="race">Half-Orc</option>
