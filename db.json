@@ -114,7 +114,7 @@
     {
       "name": "Fizzlebits",
       "health": "6",
-      "race": "Half-Orc",
+      "race": "half-Orc",
       "class": "sorcerer",
       "strength": 10,
       "dexterity": 10,

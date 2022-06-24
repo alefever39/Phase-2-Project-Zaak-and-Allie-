@@ -123,7 +123,7 @@ function App() {
     setGroups([...groups, newParty]);
   }
 
-  let partyDisplay = groups.map((group) =>
+  const partyDisplay = groups.map((group) =>
     characters.filter((character) =>
       group.partyMembers.find((partyMember) => partyMember === character.name)
     )

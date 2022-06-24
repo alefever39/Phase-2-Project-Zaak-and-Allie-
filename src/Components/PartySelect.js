@@ -1,18 +1,13 @@
 import PartyCard from "./PartyCard";
 
-function PartySelect({
-  partyMembers,
-  onMoveCharacter,
-  onDelete,
-  partyName,
-  onDetailClick,
-  onDeleteParty,
-  partyId,
-}) {
-  const partyCollection = partyMembers.map((character, index) => {
-    return (
-      <PartyCard
-        key={character.name}
+function PartySelect({partyMembers, onMoveCharacter, onDelete, partyName, onDetailClick, onDeleteParty, partyId}){
+
+    console.log(partyMembers)
+
+    const partyCollection = partyMembers.map((character, index)=>{
+        return(
+        <PartyCard
+        key= {partyId[index]}
         character={character}
         onMoveCharacter={onMoveCharacter}
         onDelete={onDelete}
