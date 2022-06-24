@@ -2,7 +2,13 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useEffect, useState } from "react";
 import "react-tabs/style/react-tabs.css";
 
-function CharacterDetail({ character, onPartyAdd, onGoBack, onEditButton }) {
+function CharacterDetail({
+  character,
+  onPartyAdd,
+  onGoBack,
+  onEditButton,
+  saveDestination,
+}) {
   const [currentHealth, setCurrentHealth] = useState(character.health);
 
   const skillsList = {
@@ -85,7 +91,9 @@ function CharacterDetail({ character, onPartyAdd, onGoBack, onEditButton }) {
     <div className="characterDetail">
       <button onClick={(e) => onPartyAdd(e, character)}>Add To Party</button>
       <button onClick={onGoBack}>Go Back</button>
-      <button onClick={() => onEditButton(character)}>Edit Character</button>
+      <button onClick={() => onEditButton(character, saveDestination)}>
+        Edit Character
+      </button>
       <img
         className="detailImage"
         src={character.image}

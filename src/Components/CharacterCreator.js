@@ -7,6 +7,7 @@ function CharacterCreator({
   editInfo = "none",
   onCreateCharacter,
   onEditCharacter,
+  saveDest,
 }) {
   //////////////////////////////
   // variable declarations
@@ -242,7 +243,7 @@ function CharacterCreator({
         .then((response) => response.json())
         .then((data) => onEditCharacter(data))
         .catch((error) => window.alert(error));
-      history.push("/select");
+      history.push(`/${saveDest}`);
     }
   }
 
@@ -251,7 +252,7 @@ function CharacterCreator({
   // The rendered page:
   return (
     <div id="character-creation">
-      <div>
+      <div id="character-sheet">
         <h2>Character Sheet</h2>
         <form id="character-form" onSubmit={handleSubmit}>
           <fieldset>
