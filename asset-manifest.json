@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Phase-2-Project-Zaak-and-Allie-/static/css/main.ea6c586a.css",
+    "main.js": "/Phase-2-Project-Zaak-and-Allie-/static/js/main.76704181.js",
+    "static/js/787.cba195e2.chunk.js": "/Phase-2-Project-Zaak-and-Allie-/static/js/787.cba195e2.chunk.js",
+    "index.html": "/Phase-2-Project-Zaak-and-Allie-/index.html",
+    "main.ea6c586a.css.map": "/Phase-2-Project-Zaak-and-Allie-/static/css/main.ea6c586a.css.map",
+    "main.76704181.js.map": "/Phase-2-Project-Zaak-and-Allie-/static/js/main.76704181.js.map",
+    "787.cba195e2.chunk.js.map": "/Phase-2-Project-Zaak-and-Allie-/static/js/787.cba195e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ea6c586a.css",
+    "static/js/main.76704181.js"
+  ]
+}
